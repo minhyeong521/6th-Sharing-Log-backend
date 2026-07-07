@@ -1,10 +1,28 @@
 spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+
+  jpa:
+    # 전송 쿼리 확인
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+    # 테이블 생성 후에 data.sql 실행
+    defer-datasource-initialization: true
+
   security:
     oauth2:
       client:
         registration:
           google:
             # 깃허브, 외부사이트, AI 등 절대 외부 유출 금지
-            # 환경 변수로 설정
+            # 인텔리제이 환경 변수로 설정함
+            # powershell 에서도 $ens 로 환경변수 만졌지만, 이 방법은 실패함
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - openid
+              - profile
+              - email

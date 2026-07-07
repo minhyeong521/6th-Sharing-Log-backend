@@ -1,0 +1,51 @@
+package gdg.sharinglog;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.startsWith;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oauth2Login;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.test.web.servlet.MockMvc;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+class LoginFlowTest {
+
+    @Autowired
+    MockMvc mockMvc;
+
+    @Test
+    void loginPageShowsGoogleLoginButton() throws Exception {
+        mockMvc.perform(get("/login"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("구글로 로그인하기")))
+                .andExpect(content().string(containsString("/oauth2/authorization/google")));
+    }
+
+    @Test
+    void googleAuthorizationEndpointRedirectsToGoogle() throws Exception {
+        mockMvc.perform(get("/oauth2/authorization/google"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(header().string("Location",
+                        startsWith("https://accounts.google.com/o/oauth2/v2/auth?")));
+    }
+
+    @Test
+    void homeShowsAuthenticatedGoogleUser() throws Exception {
+        mockMvc.perform(get("/").with(oauth2Login()
+                        .attributes(attributes -> {
+                            attributes.put("name", "Test User");
+                            attributes.put("email", "test@example.com");
+                        })))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Test User님, 로그인되었습니다.")))
+                .andExpect(content().string(containsString("test@example.com")));
+    }
+}

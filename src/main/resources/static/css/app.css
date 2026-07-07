@@ -1,0 +1,100 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+    color: #202124;
+    background: #f6f8fb;
+    font-family: Arial, "Malgun Gothic", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+}
+
+.shell {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 32px 16px;
+}
+
+.panel {
+    width: min(100%, 420px);
+    padding: 32px;
+    border: 1px solid #dfe4ea;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 16px 40px rgba(32, 33, 36, 0.08);
+}
+
+.eyebrow {
+    margin: 0 0 12px;
+    color: #1a73e8;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+h1 {
+    margin: 0;
+    font-size: 28px;
+    line-height: 1.25;
+}
+
+.copy {
+    margin: 16px 0 24px;
+    color: #5f6368;
+    font-size: 16px;
+    line-height: 1.65;
+}
+
+.google-button {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    padding: 0 18px;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    color: #202124;
+    background: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.google-button:hover {
+    background: #f8fafd;
+    border-color: #c8d7f0;
+}
+
+.google-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    color: #ffffff;
+    background: #4285f4;
+    font-weight: 700;
+}
+
+.secondary-link {
+    color: #1a73e8;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+@media (max-width: 480px) {
+    .panel {
+        padding: 24px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+}
